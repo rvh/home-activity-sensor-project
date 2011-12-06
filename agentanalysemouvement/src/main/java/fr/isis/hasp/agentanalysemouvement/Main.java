@@ -19,29 +19,23 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-//		final ArrayList<EventBean> liste = new ArrayList<EventBean>();
-		
-		System.out.println("EsperAgent");
-
 		Configuration config = new Configuration();
-		config.addEventTypeAutoName("fr.isis.has.esperagent.events");
+		config.addEventTypeAutoName("fr.isis.hasp.agentanalysemouvement.events");
 		EPServiceProvider epService = EPServiceProviderManager
 				.getDefaultProvider(config);
 
 		String expression1 = "insert into FiltreMouvements select idCapteur as id from Mouvement.win:length(4) group by idCapteur having count(idCapteur) >= 3";
-		
+
 		EPStatement statement1 = epService.getEPAdministrator().createEPL(
 				expression1);
-		
-//		String expression2 = "select id from FiltreMouvements";
-//		String expression2 = "select b.id as ID from pattern [every a=FiltreMouvements -> every b=FiltreMouvements(b.id!=a.id)]";
+
 		String expression2 = "select b.id as id from pattern [every a=FiltreMouvements -> b=FiltreMouvements(a.id != b.id)]";
-		
+
 		EPStatement statement2 = epService.getEPAdministrator().createEPL(
 				expression2);
 
 		statement1.addListener(new StatementAwareUpdateListener() {
-			
+
 			public void update(EventBean[] newEvents, EventBean[] oldEvents,
 					EPStatement stmt, EPServiceProvider service) {
 				EventBean event = newEvents[0];
@@ -57,7 +51,7 @@ public class Main {
 				System.out.println("==> " + event.get("id"));
 			}
 		});
-		
+
 		epService.getEPRuntime().sendEvent(
 				new Mouvement("capteur_1", new Date()));
 		epService.getEPRuntime().sendEvent(
