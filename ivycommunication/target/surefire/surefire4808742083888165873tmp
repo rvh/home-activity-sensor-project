@@ -1,0 +1,5 @@
+#surefire
+#Tue Dec 06 22:34:20 CET 2011
+user.dir=C\:\\Developpement\\hasp-workspace\\ivycommunication
+localRepository=C\:\\Developpement\\maven\\repository
+basedir=C\:\\Developpement\\hasp-workspace\\ivycommunication
