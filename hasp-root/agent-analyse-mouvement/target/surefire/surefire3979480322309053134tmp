@@ -1,0 +1,5 @@
+#surefire
+#Wed Dec 07 23:02:36 CET 2011
+user.dir=C\:\\Developpement\\hasp-workspace\\hasp-root\\agent-analyse-mouvement
+localRepository=C\:\\Developpement\\maven\\repository
+basedir=C\:\\Developpement\\hasp-workspace\\hasp-root\\agent-analyse-mouvement
