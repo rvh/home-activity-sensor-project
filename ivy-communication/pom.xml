@@ -16,12 +16,11 @@
 
 	<dependencies>
 		<!-- Installer le fichier dans le repository local -->
-		<!-- mvn install:install-file -Dfile=ivy-1.2.13.jar -DgroupId=fr.cena -DartifactId=ivy 
-			-Dversion=1.2.13 -Dpackaging=jar -->
+		<!-- mvn install:install-file -Dfile=C:\Users\Remy\Desktop\ivy-java.jar -DgroupId=fr.cena -DartifactId=ivy -Dversion=1.2.6 -Dpackaging=jar -->
 		<dependency>
 			<groupId>fr.cena</groupId>
 			<artifactId>ivy</artifactId>
-			<version>1.2.13</version>
+			<version>1.2.6</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
