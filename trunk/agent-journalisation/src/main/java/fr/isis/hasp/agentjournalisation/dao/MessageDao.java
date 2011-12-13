@@ -1,6 +1,6 @@
 package fr.isis.hasp.agentjournalisation.dao;
 
-import fr.isis.hasp.agentjournalisation.business.Message;
+import fr.isis.hasp.objetsmetier.Message;
 
 public interface MessageDao {
 
