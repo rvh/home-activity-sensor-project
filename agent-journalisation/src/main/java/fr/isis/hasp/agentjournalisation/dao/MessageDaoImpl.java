@@ -11,13 +11,13 @@ import fr.isis.hasp.agentjournalisation.business.Message;
 public class MessageDaoImpl implements MessageDao {
 
 	private SessionFactory sessionFactory;
-	Logger logger = LoggerFactory.getLogger(MessageDaoImpl.class);
 	
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-
+	private Logger logger = LoggerFactory.getLogger(MessageDaoImpl.class);
+	
 	public Message saveMessage(Message message) {
+		logger.info("[DEBUT] saveMessage()");
+		logger.info(message.toString());
+		
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		
@@ -25,7 +25,14 @@ public class MessageDaoImpl implements MessageDao {
 
 		tx.commit();
 		session.close();
+		
+		logger.info("[FIN] saveMessage()");
 		return message;
 	}
 
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+	
 }

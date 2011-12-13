@@ -1,5 +1,7 @@
 package fr.isis.hasp.agentjournalisation;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
@@ -18,11 +20,14 @@ public class Main {
 		MessageDao messageDao = (MessageDao) factory.getBean("messageDao");
 
 		Message message = new Message();
-		message.setCategorie("CapteurMouvement");
+		message.setCategorieCapteur("CapteurMouvement");
+		message.setDateMessage(new Date());
+		message.setNumeroCapteur(1);
 
 		messageDao.saveMessage(message);
 
-		System.out.println(message.getId() + " - " + message.getCategorie());
+		System.out.println(message.getIdMessage() + " - " + message.getCategorieCapteur());
+		
 	}
 
 }
