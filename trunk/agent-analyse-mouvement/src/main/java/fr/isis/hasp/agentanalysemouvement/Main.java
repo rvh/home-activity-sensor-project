@@ -1,6 +1,5 @@
 package fr.isis.hasp.agentanalysemouvement;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import com.espertech.esper.client.Configuration;
@@ -9,13 +8,12 @@ import com.espertech.esper.client.EPServiceProviderManager;
 import com.espertech.esper.client.EPStatement;
 import com.espertech.esper.client.EventBean;
 import com.espertech.esper.client.StatementAwareUpdateListener;
-import com.espertech.esper.client.UpdateListener;
 
 import fr.dgac.ivy.IvyClient;
 import fr.dgac.ivy.IvyMessageListener;
-import fr.isis.hasp.agentanalysemouvement.events.Mouvement;
 import fr.isis.hasp.ivycommunication.IvyCommunication;
 import fr.isis.hasp.ivycommunication.IvyCommunicationInterface;
+import fr.isis.hasp.objetsmetier.Message;
 
 public class Main {
 
@@ -23,12 +21,14 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		final IvyCommunicationInterface ivy = IvyCommunication.getIvyCommunicationProxy("AgentAnalyseMouvement");
+		
 		Configuration config = new Configuration();
-		config.addEventTypeAutoName("fr.isis.hasp.agentanalysemouvement.events");
+		config.addEventTypeAutoName("fr.isis.hasp.objetsmetier");
 		final EPServiceProvider epService = EPServiceProviderManager
 				.getDefaultProvider(config);
 
-		String expression1 = "insert into FiltreMouvements select idCapteur as id from Mouvement.win:length(4) group by idCapteur having count(idCapteur) >= 3";
+		String expression1 = "insert into FiltreMouvements select numeroCapteur as id from Message.win:length(4) group by numeroCapteur having count(numeroCapteur) >= 3";
 
 		EPStatement statement1 = epService.getEPAdministrator().createEPL(
 				expression1);
@@ -43,7 +43,7 @@ public class Main {
 			public void update(EventBean[] newEvents, EventBean[] oldEvents,
 					EPStatement stmt, EPServiceProvider service) {
 				EventBean event = newEvents[0];
-				System.out.println("= " + event.get("id"));
+				System.out.println("=> " + event.get("id"));
 			}
 		});
 
@@ -52,11 +52,17 @@ public class Main {
 			public void update(EventBean[] newEvents, EventBean[] oldEvents,
 					EPStatement stmt, EPServiceProvider service) {
 				EventBean event = newEvents[0];
-				System.out.println("==> " + event.get("id"));
+				
+				Message message = new Message();
+				message.setCategorieCapteur("ChangementPiece");
+				message.setDateMessage(new Date());
+				message.setNumeroCapteur((Integer) event.get("id"));
+				
+				System.out.println("POST : "+message);
+				
+				ivy.postMessage("::", message);
 			}
 		});
-		
-		IvyCommunicationInterface ivy = IvyCommunication.getIvyCommunicationProxy("AgentAnalyseMouvement");
 		
 		ivy.subscribeMessage("^HAS::CapteurMouvement::(.*)", new IvyMessageListener(){
 
@@ -64,7 +70,17 @@ public class Main {
 				try {
 					String[] result = arg1[0].split("::");
 					
-					epService.getEPRuntime().sendEvent(new Mouvement(result[0], new Date()));
+					String[] numero = result[0].split("DETX");
+					
+					int num = Integer.parseInt(numero[0]);
+					
+					
+					Message message = new Message();
+					message.setCategorieCapteur("CapteurMouvement");
+					message.setDateMessage(new Date());
+					message.setNumeroCapteur(num);
+					
+					epService.getEPRuntime().sendEvent(message);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -72,41 +88,34 @@ public class Main {
 			}
 			
 		});
+		
+//		TEST
+//		
+//		Message message = new Message();
+//		message.setCategorieCapteur("CapteurMouvement");
+//		message.setDateMessage(new Date());
+//		message.setNumeroCapteur(1);
+//		
+//		Message message2 = new Message();
+//		message2.setCategorieCapteur("CapteurMouvement");
+//		message2.setDateMessage(new Date());
+//		message2.setNumeroCapteur(2);
+//		
+//		epService.getEPRuntime().sendEvent(message);
+//		epService.getEPRuntime().sendEvent(message);
+//		epService.getEPRuntime().sendEvent(message);
+//		
+//		epService.getEPRuntime().sendEvent(message2);
+//		epService.getEPRuntime().sendEvent(message2);
+//		epService.getEPRuntime().sendEvent(message2);
+//		epService.getEPRuntime().sendEvent(message2);
+//		epService.getEPRuntime().sendEvent(message2);
+//		epService.getEPRuntime().sendEvent(message2);
+//		
+//		epService.getEPRuntime().sendEvent(message);
+//		epService.getEPRuntime().sendEvent(message);
+//		epService.getEPRuntime().sendEvent(message);
 
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_1", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_1", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_1", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_2", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_2", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_1", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_1", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_2", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_2", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_2", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_2", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_1", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_1", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_1", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_1", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_1", new Date()));
-//		epService.getEPRuntime().sendEvent(
-//				new Mouvement("capteur_1", new Date()));
 	}
 
 }
