@@ -5,6 +5,7 @@ import javax.comm.*;
 import com.sun.comm.Win32Driver;
 
 import fr.isis.hasp.ivycommunication.IvyCommunicationInterface;
+import fr.isis.hasp.objetsmetier.Constantes;
 import fr.isis.hasp.objetsmetier.Message;
 
 import java.io.*;
@@ -152,11 +153,11 @@ public class PortSerie extends Thread implements SerialPortEventListener {
 				int num = Integer.parseInt(numero[0]);
 
 				Message message = new Message();
-				message.setCategorieCapteur("CapteurMouvement");
+				message.setCategorieMessage(Constantes.CAPTEUR_MOUVEMENT);
 				message.setDateMessage(new Date());
 				message.setNumeroCapteur(num);
 
-				bus.postMessage("::", message);
+				bus.postMessage(message);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
