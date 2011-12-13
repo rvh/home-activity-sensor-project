@@ -17,7 +17,7 @@
 		<property name="dataSource" ref="myDataSource" />
 		<property name="annotatedClasses">
 			<list>
-				<value>fr.isis.hasp.agentjournalisation.business.Message</value>
+				<value>fr.isis.hasp.objetsmetier.Message</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
