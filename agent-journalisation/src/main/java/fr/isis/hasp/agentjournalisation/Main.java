@@ -5,8 +5,8 @@ import java.util.Date;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
-import fr.isis.hasp.agentjournalisation.business.Message;
 import fr.isis.hasp.agentjournalisation.dao.MessageDao;
+import fr.isis.hasp.objetsmetier.Message;
 
 public class Main {
 
@@ -27,7 +27,6 @@ public class Main {
 		messageDao.saveMessage(message);
 
 		System.out.println(message.getIdMessage() + " - " + message.getCategorieCapteur());
-		
 	}
 
 }

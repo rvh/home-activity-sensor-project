@@ -6,7 +6,7 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import fr.isis.hasp.agentjournalisation.business.Message;
+import fr.isis.hasp.objetsmetier.Message;
 
 public class MessageDaoImpl implements MessageDao {
 
