@@ -5,6 +5,7 @@ import javax.comm.*;
 import com.sun.comm.Win32Driver;
 
 import fr.isis.hasp.ivycommunication.IvyCommunicationInterface;
+import fr.isis.hasp.objetsmetier.Message;
 
 import java.io.*;
 import java.util.*;
@@ -142,16 +143,23 @@ public class PortSerie extends Thread implements SerialPortEventListener {
 		case SerialPortEvent.OUTPUT_BUFFER_EMPTY:
 			break;
 		case SerialPortEvent.DATA_AVAILABLE:
-			String idCapteur = new String("");
+			
 			try {
-				idCapteur = (String) fluxLecture.readLine();
+				String idCapteur = (String) fluxLecture.readLine();
+
+				String[] numero = idCapteur.split("DETX");
+
+				int num = Integer.parseInt(numero[0]);
+
+				Message message = new Message();
+				message.setCategorieCapteur("CapteurMouvement");
+				message.setDateMessage(new Date());
+				message.setNumeroCapteur(num);
+
+				bus.postMessage("::", message);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			String[] message = { "HAS", "CapteurMouvement", idCapteur, "1" };
-			
-			bus.postMessage("::", message);
 
 			break;
 		}
