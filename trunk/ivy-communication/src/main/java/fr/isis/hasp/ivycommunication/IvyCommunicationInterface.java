@@ -10,7 +10,7 @@ public interface IvyCommunicationInterface {
 	 * @param separateur Séparateur.
 	 * @param message Le message.
 	 */
-	public void postMessage(String separateur, Message message);
+	public void postMessage(Message message);
 	
 	/**
 	 * S'aboner à un type d'évènements.
