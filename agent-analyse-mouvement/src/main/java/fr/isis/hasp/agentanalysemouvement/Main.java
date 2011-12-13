@@ -13,6 +13,7 @@ import fr.dgac.ivy.IvyClient;
 import fr.dgac.ivy.IvyMessageListener;
 import fr.isis.hasp.ivycommunication.IvyCommunication;
 import fr.isis.hasp.ivycommunication.IvyCommunicationInterface;
+import fr.isis.hasp.objetsmetier.Constantes;
 import fr.isis.hasp.objetsmetier.Message;
 
 public class Main {
@@ -54,21 +55,22 @@ public class Main {
 				EventBean event = newEvents[0];
 				
 				Message message = new Message();
-				message.setCategorieCapteur("ChangementPiece");
+				message.setCategorieMessage(Constantes.CHANGEMENT_PIECE);
 				message.setDateMessage(new Date());
 				message.setNumeroCapteur((Integer) event.get("id"));
 				
 				System.out.println("POST : "+message);
 				
-				ivy.postMessage("::", message);
+				ivy.postMessage(message);
 			}
 		});
 		
-		ivy.subscribeMessage("^HAS::CapteurMouvement::(.*)", new IvyMessageListener(){
+		//TODO Serialisation et de serialisation
+		ivy.subscribeMessage("^"+Constantes.NOM_PROJET+Constantes.SEPARATEUR+Constantes.CAPTEUR_MOUVEMENT+Constantes.SEPARATEUR+"(.*)", new IvyMessageListener(){
 
 			public void receive(IvyClient arg0, String[] arg1) {
 				try {
-					String[] result = arg1[0].split("::");
+					String[] result = arg1[0].split(Constantes.SEPARATEUR);
 					
 					String[] numero = result[0].split("DETX");
 					
@@ -76,7 +78,7 @@ public class Main {
 					
 					
 					Message message = new Message();
-					message.setCategorieCapteur("CapteurMouvement");
+					message.setCategorieMessage(Constantes.CAPTEUR_MOUVEMENT);
 					message.setDateMessage(new Date());
 					message.setNumeroCapteur(num);
 					
