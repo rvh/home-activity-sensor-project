@@ -4,6 +4,7 @@ import fr.dgac.ivy.Ivy;
 import fr.dgac.ivy.IvyClient;
 import fr.dgac.ivy.IvyException;
 import fr.dgac.ivy.IvyMessageListener;
+import fr.isis.hasp.objetsmetier.Message;
 
 public class IvyCommunication implements IvyCommunicationInterface {
 
@@ -70,6 +71,35 @@ public class IvyCommunication implements IvyCommunicationInterface {
 
 	protected void finalize() {
 		bus.stop();
+	}
+
+	public void postMessage(String separateur, Message message) {
+		try {
+
+			// HAS::CategorieCapteur::NumeroCapteur::Date::QuantiteMesure
+			String messageString = "HAS" + separateur
+					+ message.getCategorieCapteur() + separateur
+					+ message.getDateMessage() + separateur
+					+ message.getNumeroCapteur() + separateur
+					+ message.getQuantiteMesure();
+
+			// for (String contenu : message) {
+			// if (contenu != null && !"".equals(contenu)) {
+			// if (!"".equals(messageString)) {
+			// messageString += separateur;
+			// }
+			// messageString += contenu;
+			// }
+			// }
+
+			if (!"".equals(messageString)) {
+				bus.sendMsg(messageString);
+				System.out.println("POST : " + messageString);
+			}
+
+		} catch (IvyException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

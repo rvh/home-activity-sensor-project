@@ -1,15 +1,16 @@
 package fr.isis.hasp.ivycommunication;
 
 import fr.dgac.ivy.IvyMessageListener;
+import fr.isis.hasp.objetsmetier.Message;
 
 public interface IvyCommunicationInterface {
 	
 	/**
 	 * Publie un message sur le bus Ivy.
 	 * @param separateur Séparateur.
-	 * @param message Les Différentes parties du message qui seront séparées par le "separateur".
+	 * @param message Le message.
 	 */
-	public void postMessage(String separateur,String[] message);
+	public void postMessage(String separateur, Message message);
 	
 	/**
 	 * S'aboner à un type d'évènements.
