@@ -19,7 +19,7 @@ public class Message implements Serializable {
 	private long idMessage;
 
 	@Column(nullable=false)
-	private String categorieCapteur;
+	private String categorieMessage;
 
 	@Column(nullable=false)
 	private Date dateMessage;
@@ -28,7 +28,7 @@ public class Message implements Serializable {
 	private Integer numeroCapteur;
 
 	@Column(nullable=true)
-	private Integer quantiteMesure;
+	private String message;
 
 	public Message() {
 	}
@@ -41,12 +41,12 @@ public class Message implements Serializable {
 		this.idMessage = idMessage;
 	}
 
-	public String getCategorieCapteur() {
-		return categorieCapteur;
+	public String getCategorieMessage() {
+		return categorieMessage;
 	}
 
-	public void setCategorieCapteur(String categorieCapteur) {
-		this.categorieCapteur = categorieCapteur;
+	public void setCategorieMessage(String categorieMessage) {
+		this.categorieMessage = categorieMessage;
 	}
 
 	public Date getDateMessage() {
@@ -65,20 +65,20 @@ public class Message implements Serializable {
 		this.numeroCapteur = numeroCapteur;
 	}
 
-	public Integer getQuantiteMesure() {
-		return quantiteMesure;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setQuantiteMesure(Integer quantiteMesure) {
-		this.quantiteMesure = quantiteMesure;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	@Override
 	public String toString() {
-		return "Message [idMessage=" + idMessage + ", categorieCapteur="
-				+ categorieCapteur + ", dateMessage=" + dateMessage
-				+ ", numeroCapteur=" + numeroCapteur + ", quantiteMesure="
-				+ quantiteMesure + "]";
+		return "Message [idMessage=" + idMessage + ", categorieMessage="
+				+ categorieMessage + ", dateMessage=" + dateMessage
+				+ ", numeroCapteur=" + numeroCapteur + ", message=" + message
+				+ "]";
 	}
 
 	@Override
