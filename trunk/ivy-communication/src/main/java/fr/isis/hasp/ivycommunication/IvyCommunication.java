@@ -13,7 +13,7 @@ import fr.isis.hasp.objetsmetier.Message;
 /**
  * IvyCommunication fournit des methodes d'accès au bus Ivy.
  * 
- * Format des messages : HAS::CategorieMessage::NumeroCapteur::Date::Message
+ * Format des messages : HASP::CategorieMessage::NumeroCapteur::Date::Message
  * 
  * @author rvanhoof
  */
