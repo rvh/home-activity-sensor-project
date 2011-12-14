@@ -80,14 +80,18 @@ public class IvyCommunication implements IvyCommunicationInterface {
 		}
 	}
 
+	/**
+	 * Message to String
+	 * @param message
+	 * @return resultMessage Format : HASP::CategorieMessage::NumeroCapteur::Date::Message
+	 */
 	public static String serialyzeMessage(Message message) {
 		String messageString = "";
 
 		// CategorieMessage
 		if (message.getCategorieMessage() != null
 				&& !message.getCategorieMessage().equals("")) {
-			messageString += Constantes.NOM_PROJET + Constantes.SEPARATEUR
-					+ message.getCategorieMessage() + Constantes.SEPARATEUR;
+			messageString += message.getCategorieMessage() + Constantes.SEPARATEUR;
 
 			// NumeroCapteur
 			if (message.getNumeroCapteur() != null) {
@@ -121,37 +125,42 @@ public class IvyCommunication implements IvyCommunicationInterface {
 		}
 	}
 
-	public static Message serialyzeMessage(String message) {
+	/**
+	 * String to Message
+	 * @param message Format : CategorieMessage::NumeroCapteur::Date::Message
+	 * @return resultMessage
+	 */
+	public static Message unSerialyzeMessage(String message) {
 		String[] splitMessage = message.split(Constantes.SEPARATEUR);
 		if (splitMessage != null) {
 			Message result = new Message();
 
 			try {
 				// CategorieMessage
-				if (splitMessage[1] != null && !splitMessage[1].equals("")) {
-					result.setCategorieMessage(splitMessage[1]);
+				if (splitMessage[0] != null && !splitMessage[0].equals("")) {
+					result.setCategorieMessage(splitMessage[0]);
 
 					// NumeroCapteur
-					if (splitMessage[2] != null && !splitMessage[2].equals("")) {
+					if (splitMessage[1] != null && !splitMessage[1].equals("")) {
 						result.setNumeroCapteur(Integer
-								.parseInt(splitMessage[2]));
+								.parseInt(splitMessage[1]));
 
 						// Date
-						if (splitMessage[3] != null
-								&& !splitMessage[3].equals("")) {
+						if (splitMessage[2] != null
+								&& !splitMessage[2].equals("")) {
 							DateFormat dateFormat = new SimpleDateFormat(
 									Constantes.FORMAT_DATE);
 							Date date = null;
-							date = dateFormat.parse(splitMessage[3]);
+							date = dateFormat.parse(splitMessage[2]);
 							
 							if(date != null){
 								result.setDateMessage(date);
 								
 								// Message (Optionel)
 								try {
-									if (splitMessage[4] != null
-											&& !splitMessage[4].equals("")) {
-										result.setMessage(splitMessage[4]);
+									if (splitMessage[3] != null
+											&& !splitMessage[3].equals("")) {
+										result.setMessage(splitMessage[3]);
 									}
 								} catch (Exception e) {
 								}
