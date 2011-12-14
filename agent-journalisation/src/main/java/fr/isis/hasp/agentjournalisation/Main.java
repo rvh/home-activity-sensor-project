@@ -1,7 +1,5 @@
 package fr.isis.hasp.agentjournalisation;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
@@ -33,35 +31,24 @@ public class Main {
 				+ Constantes.SEPARATEUR + "(.*)", new IvyMessageListener() {
 
 			public void receive(IvyClient arg0, String[] arg1) {
-				String[] result = arg1[0].split(Constantes.SEPARATEUR);
+				Message message = null;
 
-				// categorieMessage
-				String categorie = null;
 				try {
-					categorie = result[0];
+					message = IvyCommunication.unSerialyzeMessage(arg1[0]);
 				} catch (Exception e) {
-				}
-				//TODO Serialisation et de serialisation
-				// categorieMessage
-				Date date = null;
-				try {
-					categorie = result[0];
-				} catch (Exception e) {
+					e.printStackTrace();
 				}
 
-				Message message = new Message();
-				message.setCategorieMessage(Constantes.CAPTEUR_MOUVEMENT);
-				message.setDateMessage(new Date());
-				message.setNumeroCapteur(1);
+				if (message != null) {
+					// Journaliser le message
+					messageDao.saveMessage(message);
 
-				messageDao.saveMessage(message);
-
-				System.out.println(message.getIdMessage() + " - "
-						+ message.getCategorieMessage());
+					System.out.println(message.getIdMessage() + " - "
+							+ message.getCategorieMessage());
+				}
 			}
-
 		});
-
+		
 	}
-
+	
 }
