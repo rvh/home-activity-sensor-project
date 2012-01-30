@@ -150,7 +150,7 @@ public class PortSerie extends Thread implements SerialPortEventListener {
 
 				String[] numero = idCapteur.split("DETX");
 
-				int num = Integer.parseInt(numero[0]);
+				int num = Integer.parseInt(numero[1]);
 
 				Message message = new Message();
 				message.setCategorieMessage(Constantes.CAPTEUR_MOUVEMENT);
