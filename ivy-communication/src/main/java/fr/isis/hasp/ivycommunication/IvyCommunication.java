@@ -64,11 +64,16 @@ public class IvyCommunication implements IvyCommunicationInterface {
 		try {
 
 			// HAS::CategorieCapteur::NumeroCapteur::Date::QuantiteMesure
-			String messageString = Constantes.NOM_PROJET
-					+ Constantes.SEPARATEUR + message.getCategorieMessage()
-					+ Constantes.SEPARATEUR + message.getDateMessage()
-					+ Constantes.SEPARATEUR + message.getNumeroCapteur()
-					+ Constantes.SEPARATEUR + message.getMessage();
+//			DateFormat dateFormat = new SimpleDateFormat(
+//					Constantes.FORMAT_DATE);
+//			
+//			String messageString = Constantes.NOM_PROJET
+//					+ Constantes.SEPARATEUR + message.getCategorieMessage()
+//					+ Constantes.SEPARATEUR + dateFormat.format(message.getDateMessage())
+//					+ Constantes.SEPARATEUR + message.getNumeroCapteur()
+//					+ Constantes.SEPARATEUR + message.getMessage();
+			
+			String messageString = serialyzeMessage(message);
 
 			if (!"".equals(messageString)) {
 				bus.sendMsg(messageString);
@@ -86,7 +91,8 @@ public class IvyCommunication implements IvyCommunicationInterface {
 	 * @return resultMessage Format : HASP::CategorieMessage::NumeroCapteur::Date::Message
 	 */
 	public static String serialyzeMessage(Message message) {
-		String messageString = "";
+//		String messageString = "";
+		String messageString = Constantes.NOM_PROJET + Constantes.SEPARATEUR;
 
 		// CategorieMessage
 		if (message.getCategorieMessage() != null
