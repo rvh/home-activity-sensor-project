@@ -43,8 +43,7 @@ public class Main {
 					// Journaliser le message
 					messageDao.saveMessage(message);
 
-					System.out.println(message.getIdMessage() + " - "
-							+ message.getCategorieMessage());
+					System.out.println("MESSAGE=>DB - "+message.toString());
 				}
 			}
 		});
