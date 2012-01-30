@@ -1,10 +1,17 @@
 package fr.isis.hasp.agentniveausonore;
 
+import java.util.Date;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.TargetDataLine;
+
+import fr.isis.hasp.ivycommunication.IvyCommunication;
+import fr.isis.hasp.ivycommunication.IvyCommunicationInterface;
+import fr.isis.hasp.objetsmetier.Constantes;
+import fr.isis.hasp.objetsmetier.Message;
 
 /**
  * Cette classe affiche les variations sonores que capte le micro, si le micro ne capte rien -> 0
@@ -14,7 +21,10 @@ import javax.sound.sampled.TargetDataLine;
 
 public class DbMeter {
 
-	byte[] b = new byte[14000];
+	final IvyCommunicationInterface ivy = IvyCommunication.getIvyCommunicationProxy("AgentCaptureSon");
+	
+	byte[] b = new byte[70000];
+	private long temporisation = 5000L;
 
 	private AudioFormat audioFormat;
 	private TargetDataLine targetDataLine;
@@ -34,9 +44,24 @@ public class DbMeter {
 				for (int i = 0; i < b.length; i++)
 					b[i] = 0;
 				captureAudio();
-				Thread.sleep(1000, 0);
+				Thread.sleep(temporisation, 0);
 				
-				System.out.println("Level : "+ (calculateRMSLevel(b) + calibration));//Affiche le volume sonore RMS (correspond à peu pret au volume db
+				double level = calculateRMSLevel(b);
+				
+//				System.out.println("Level : "+ (calculateRMSLevel(b) + calibration));//Affiche le volume sonore RMS (correspond à peu pret au volume db
+				
+				Message message = new Message();
+				message.setCategorieMessage(Constantes.CAPTEUR_SON);
+				message.setDateMessage(new Date());
+				message.setNumeroCapteur(new Integer(0));
+				
+				if(level>120){
+					message.setMessage("1");
+					ivy.postMessage(message);
+				}else{
+					message.setMessage("0");
+					ivy.postMessage(message);
+				}
 				
 				targetDataLine.stop();
 				targetDataLine.close();
