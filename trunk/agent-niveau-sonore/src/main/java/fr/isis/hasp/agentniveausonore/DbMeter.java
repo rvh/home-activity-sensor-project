@@ -55,6 +55,8 @@ public class DbMeter {
 				message.setDateMessage(new Date());
 				message.setNumeroCapteur(new Integer(0));
 				
+				System.out.print("LEVEL : "+level);
+				
 				if(level>120){
 					message.setMessage("1");
 					ivy.postMessage(message);
@@ -87,7 +89,7 @@ public class DbMeter {
 			// will return after starting the thread.
 			new CaptureThread().start();
 		} catch (Exception e) {
-			System.out.println("Vérifier qu'un micro est branché à ce PC.");
+			System.out.println("Vérifier qu'un micro est branché à ce PC.\n");
 		
 			e.printStackTrace();
 			System.exit(0);
