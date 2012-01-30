@@ -30,11 +30,21 @@ public class Main {
 		final EPServiceProvider epService = EPServiceProviderManager
 				.getDefaultProvider(config);
 
+		/**
+		 * On regarde une fenêtre de 4 évènements de type mouvement.
+		 * Si parmi les 4 évènements au moins 3 concernent la même pièce,
+		 * alors on stocke cet évènement dans le flux temporaire : FiltreMouvements.
+		 */
 		String expression1 = "insert into FiltreMouvements select numeroCapteur as id from Message.win:length(4) group by numeroCapteur having count(numeroCapteur) >= 3";
 
 		EPStatement statement1 = epService.getEPAdministrator().createEPL(
 				expression1);
 
+		/**
+		 * On regarde le chaque évènement du flux FiltreMouvements.
+		 * Si les deux derniers ne concernent pas la même pièce,
+		 * alors cet évènement est un changement de pièce.
+		 */
 		String expression2 = "select b.id as id from pattern [every a=FiltreMouvements -> b=FiltreMouvements(a.id != b.id)]";
 
 		EPStatement statement2 = epService.getEPAdministrator().createEPL(
@@ -60,13 +70,10 @@ public class Main {
 				message.setDateMessage(new Date());
 				message.setNumeroCapteur((Integer) event.get("id"));
 
-				System.out.println("POST : " + message);
-
 				ivy.postMessage(message);
 			}
 		});
 
-		// TODO Serialisation et de serialisation
 		ivy.subscribeMessage("^" + Constantes.NOM_PROJET
 				+ Constantes.SEPARATEUR + Constantes.CAPTEUR_MOUVEMENT
 				+ Constantes.SEPARATEUR + "(.*)", new IvyMessageListener() {
@@ -95,19 +102,25 @@ public class Main {
 
 		// TEST
 		//
-		// Message message = new Message();
-		// message.setCategorieCapteur("CapteurMouvement");
-		// message.setDateMessage(new Date());
-		// message.setNumeroCapteur(1);
-		//
-		// Message message2 = new Message();
-		// message2.setCategorieCapteur("CapteurMouvement");
-		// message2.setDateMessage(new Date());
-		// message2.setNumeroCapteur(2);
-		//
-		// epService.getEPRuntime().sendEvent(message);
-		// epService.getEPRuntime().sendEvent(message);
-		// epService.getEPRuntime().sendEvent(message);
+//		 Message message = new Message();
+//		 message.setCategorieMessage(Constantes.CAPTEUR_MOUVEMENT);
+//		 message.setDateMessage(new Date());
+//		 message.setNumeroCapteur(1);
+//		
+//		 Message message2 = new Message();
+//		 message.setCategorieMessage(Constantes.CAPTEUR_MOUVEMENT);
+//		 message2.setDateMessage(new Date());
+//		 message2.setNumeroCapteur(2);
+//		
+//		 epService.getEPRuntime().sendEvent(message);
+//		 epService.getEPRuntime().sendEvent(message);
+//		 epService.getEPRuntime().sendEvent(message);
+//		 epService.getEPRuntime().sendEvent(message);
+//		 epService.getEPRuntime().sendEvent(message2);
+//		 epService.getEPRuntime().sendEvent(message2);
+//		 epService.getEPRuntime().sendEvent(message);
+//		 epService.getEPRuntime().sendEvent(message2);
+		 
 		//
 		// epService.getEPRuntime().sendEvent(message2);
 		// epService.getEPRuntime().sendEvent(message2);
