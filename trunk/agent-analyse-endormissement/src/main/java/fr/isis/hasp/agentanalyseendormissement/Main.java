@@ -97,7 +97,7 @@ public class Main {
 //		message2.setCategorieMessage(Constantes.CHANGEMENT_PIECE);
 //		message2.setDateMessage(new Date());
 //		message2.setNumeroCapteur(1);
-//		
+		
 //		Message messageLum = new Message();
 //		messageLum.setCategorieMessage(Constantes.CAPTEUR_LUMIERE);
 //		messageLum.setDateMessage(new Date());
