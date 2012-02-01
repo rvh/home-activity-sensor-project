@@ -12,6 +12,7 @@ public class Constantes {
 	public static final String CAPTEUR_LUMIERE= "CapteurLumiere";
 	public static final String CAPTEUR_TEMPERATURE= "CapteurTemperature";
 	public static final String CAPTEUR_COUSSIN= "CapteurCoussin";
+	public static final String ENDORMISSEMENT= "Endormissement";
 
 	public static final String FORMAT_DATE= "yyyy.MM.dd.HH.mm.ss.SSSS";
 	
