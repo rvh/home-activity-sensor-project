@@ -17,5 +17,16 @@ public class Constantes {
 
 	public static final String FORMAT_DATE = "yyyy.MM.dd.HH.mm.ss.SSSS";
 	public static final String FORMAT_DATE_IHM = "dd/MM/yyyy - HH:mm";
+	
+	public static final String[] CATEGORIES_MESSAGES = {
+		CAPTEUR_MOUVEMENT,
+		CAPTEUR_SON,
+		CHANGEMENT_PIECE,
+		CAPTEUR_LUMIERE,
+		CAPTEUR_TEMPERATURE,
+		CAPTEUR_COUSSIN,
+		ENDORMISSEMENT,
+		REVEIL
+		};
 
 }
