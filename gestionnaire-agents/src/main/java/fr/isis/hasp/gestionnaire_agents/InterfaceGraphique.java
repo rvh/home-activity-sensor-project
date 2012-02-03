@@ -264,7 +264,7 @@ public class InterfaceGraphique extends javax.swing.JFrame {
 		jLabel13.setText("Agents d'analyse d'activité");
 
 		jLabel14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-		jLabel14.setText("Agents Liés aux capteurs");
+		jLabel14.setText("Agents liés aux capteurs");
 
 		jLabel15.setText("Agent Analyse endomissement");
 
