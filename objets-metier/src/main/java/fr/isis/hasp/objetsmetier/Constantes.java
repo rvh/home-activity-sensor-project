@@ -14,6 +14,7 @@ public class Constantes {
 	public static final String CAPTEUR_COUSSIN = "CapteurCoussin";
 	public static final String ENDORMISSEMENT = "Endormissement";
 	public static final String REVEIL = "Reveil";
+	public static final String CAPTEUR_CO2 = "NombrePersonne";
 
 	public static final String FORMAT_DATE = "yyyy.MM.dd.HH.mm.ss.SSSS";
 	public static final String FORMAT_DATE_IHM = "dd/MM/yyyy - HH:mm";
@@ -26,7 +27,8 @@ public class Constantes {
 		CAPTEUR_TEMPERATURE,
 		CAPTEUR_COUSSIN,
 		ENDORMISSEMENT,
-		REVEIL
+		REVEIL,
+		CAPTEUR_CO2
 		};
 
 }
