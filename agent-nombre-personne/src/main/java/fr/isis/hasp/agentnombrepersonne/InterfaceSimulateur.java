@@ -67,7 +67,7 @@ public class InterfaceSimulateur extends javax.swing.JFrame {
 		jSlider1 = new javax.swing.JSlider();
 		jLabel2 = new javax.swing.JLabel();
 
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 		setLocationByPlatform(true);
 		setResizable(false);
 
