@@ -8,52 +8,51 @@ import fr.isis.hasp.agentnombrepersonne.InterfaceSimulateur;
  * @author Arnaud
  */
 public class InterfaceGraphique extends javax.swing.JFrame {
-	
-		private javax.swing.JFrame jFrame1;
-		private javax.swing.JLabel jLabel1;
-		private javax.swing.JLabel jLabel13;
-		private javax.swing.JLabel jLabel14;
-		private javax.swing.JLabel jLabel15;
-		private javax.swing.JLabel jLabel16;
-		private javax.swing.JLabel jLabel17;
-		private javax.swing.JLabel jLabel2;
-		private javax.swing.JLabel jLabel3;
-		private javax.swing.JLabel jLabel4;
-		private javax.swing.JLabel jLabel5;
-		private javax.swing.JLabel jLabel6;
-		private javax.swing.JSeparator jSeparator2;
-		private javax.swing.JSeparator jSeparator3;
-		private javax.swing.JLabel runAnaMouv;
-		private javax.swing.JLabel runCoussin;
-		private javax.swing.JLabel runEndorm;
-		private javax.swing.JLabel runJournal;
-		private javax.swing.JLabel runLumTmp;
-		private javax.swing.JLabel runMouv;
-		private javax.swing.JLabel runNbPers;
-		private javax.swing.JLabel runReveil;
-		private javax.swing.JLabel runSon;
-		private javax.swing.JButton startAnaMouv;
-		private javax.swing.JButton startCoussin;
-		private javax.swing.JButton startEndorm;
-		private javax.swing.JButton startJournal;
-		private javax.swing.JButton startLumTmp;
-		private javax.swing.JButton startMouv;
-		private javax.swing.JButton startNbPers;
-		private javax.swing.JButton startReveil;
-		private javax.swing.JButton startSon;
-		private javax.swing.JButton stopAnaMouv;
-		private javax.swing.JButton stopCoussin;
-		private javax.swing.JButton stopEndorm;
-		private javax.swing.JButton stopJournal;
-		private javax.swing.JButton stopLumTmp;
-		private javax.swing.JButton stopMouv;
-		private javax.swing.JButton stopNbPers;
-		private javax.swing.JButton stopReveil;
-		private javax.swing.JButton stopSon;
-		
-		private InterfaceSimulateur nbPersonne = null;
-		private InterfaceDbMeter dbMeter = null;
-	
+
+	private javax.swing.JFrame jFrame1;
+	private javax.swing.JLabel jLabel1;
+	private javax.swing.JLabel jLabel13;
+	private javax.swing.JLabel jLabel14;
+	private javax.swing.JLabel jLabel15;
+	private javax.swing.JLabel jLabel16;
+	private javax.swing.JLabel jLabel17;
+	private javax.swing.JLabel jLabel2;
+	private javax.swing.JLabel jLabel3;
+	private javax.swing.JLabel jLabel4;
+	private javax.swing.JLabel jLabel5;
+	private javax.swing.JLabel jLabel6;
+	private javax.swing.JSeparator jSeparator2;
+	private javax.swing.JSeparator jSeparator3;
+	private javax.swing.JLabel runAnaMouv;
+	private javax.swing.JLabel runCoussin;
+	private javax.swing.JLabel runEndorm;
+	private javax.swing.JLabel runJournal;
+	private javax.swing.JLabel runLumTmp;
+	private javax.swing.JLabel runMouv;
+	private javax.swing.JLabel runNbPers;
+	private javax.swing.JLabel runReveil;
+	private javax.swing.JLabel runSon;
+	private javax.swing.JButton startAnaMouv;
+	private javax.swing.JButton startCoussin;
+	private javax.swing.JButton startEndorm;
+	private javax.swing.JButton startJournal;
+	private javax.swing.JButton startLumTmp;
+	private javax.swing.JButton startMouv;
+	private javax.swing.JButton startNbPers;
+	private javax.swing.JButton startReveil;
+	private javax.swing.JButton startSon;
+	private javax.swing.JButton stopAnaMouv;
+	private javax.swing.JButton stopCoussin;
+	private javax.swing.JButton stopEndorm;
+	private javax.swing.JButton stopJournal;
+	private javax.swing.JButton stopLumTmp;
+	private javax.swing.JButton stopMouv;
+	private javax.swing.JButton stopNbPers;
+	private javax.swing.JButton stopReveil;
+	private javax.swing.JButton stopSon;
+
+	private InterfaceSimulateur nbPersonne = null;
+	private InterfaceDbMeter dbMeter = null;
 
 	public InterfaceGraphique() {
 		initComponents();
@@ -69,7 +68,7 @@ public class InterfaceGraphique extends javax.swing.JFrame {
 	@SuppressWarnings("unchecked")
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
-		
+
 		try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
 					.getInstalledLookAndFeels()) {
@@ -162,7 +161,7 @@ public class InterfaceGraphique extends javax.swing.JFrame {
 			}
 		});
 
-		jLabel2.setText("Agent Luminosité - Température");
+		jLabel2.setText("Agent Luminositï¿½ - Tempï¿½rature");
 
 		startLumTmp.setText("Start");
 		startLumTmp.addActionListener(new java.awt.event.ActionListener() {
@@ -262,10 +261,10 @@ public class InterfaceGraphique extends javax.swing.JFrame {
 		runLumTmp.setText("Stopped");
 
 		jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-		jLabel13.setText("Agents d'analyse d'activité");
+		jLabel13.setText("Agents d'analyse d'activitÃ©");
 
 		jLabel14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-		jLabel14.setText("Agents Liés aux capteurs");
+		jLabel14.setText("Agents LiÃ©s aux capteurs");
 
 		jLabel15.setText("Agent Analyse endomissement");
 
@@ -587,7 +586,7 @@ public class InterfaceGraphique extends javax.swing.JFrame {
 		stopNbPers.setEnabled(false);
 		stopReveil.setEnabled(false);
 		stopSon.setEnabled(false);
-		
+
 		pack();
 	}// </editor-fold>
 
