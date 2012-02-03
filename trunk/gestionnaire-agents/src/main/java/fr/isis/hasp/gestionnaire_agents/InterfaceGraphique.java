@@ -1,5 +1,6 @@
 package fr.isis.hasp.gestionnaire_agents;
 
+import fr.isis.hasp.agentjournalisation.InterfaceJournalisation;
 import fr.isis.hasp.agentniveausonore.InterfaceDbMeter;
 import fr.isis.hasp.agentnombrepersonne.InterfaceSimulateur;
 
@@ -53,11 +54,13 @@ public class InterfaceGraphique extends javax.swing.JFrame {
 
 	private InterfaceSimulateur nbPersonne = null;
 	private InterfaceDbMeter dbMeter = null;
-
+	private InterfaceJournalisation journal = null;
+	
 	public InterfaceGraphique() {
 		initComponents();
 		nbPersonne = new InterfaceSimulateur();
 		dbMeter = new InterfaceDbMeter();
+		journal = new InterfaceJournalisation();
 	}
 
 	/**
@@ -644,6 +647,7 @@ public class InterfaceGraphique extends javax.swing.JFrame {
 	}
 
 	private void startJournalActionPerformed(java.awt.event.ActionEvent evt) {
+		journal.start();
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				startJournal.setEnabled(false);
@@ -707,6 +711,7 @@ public class InterfaceGraphique extends javax.swing.JFrame {
 	}
 
 	private void stopJournalActionPerformed(java.awt.event.ActionEvent evt) {
+		journal.stop();
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				startJournal.setEnabled(true);
