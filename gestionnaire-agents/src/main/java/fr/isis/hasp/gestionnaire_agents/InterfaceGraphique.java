@@ -161,7 +161,7 @@ public class InterfaceGraphique extends javax.swing.JFrame {
 			}
 		});
 
-		jLabel2.setText("Agent Luminosit� - Temp�rature");
+		jLabel2.setText("Agent Luminosité - Température");
 
 		startLumTmp.setText("Start");
 		startLumTmp.addActionListener(new java.awt.event.ActionListener() {
