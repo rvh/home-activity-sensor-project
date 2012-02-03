@@ -19,7 +19,7 @@ import fr.isis.hasp.objetsmetier.Message;
  * @author Arnaud
  */
 
-public class DbMeter {
+public class DbMeter extends Thread{
 
 	final IvyCommunicationInterface ivy = IvyCommunication.getIvyCommunicationProxy("AgentCaptureSon");
 	
@@ -38,8 +38,8 @@ public class DbMeter {
 
 	}
 
-	public DbMeter() {
-		while (true) {
+	public void run() {
+		while (!interrupted()) {
 			try {
 				for (int i = 0; i < b.length; i++)
 					b[i] = 0;
@@ -68,8 +68,7 @@ public class DbMeter {
 				targetDataLine.stop();
 				targetDataLine.close();
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				return;
 			}
 		}
 	}
