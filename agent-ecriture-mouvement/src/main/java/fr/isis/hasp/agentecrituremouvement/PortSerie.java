@@ -18,7 +18,7 @@ public class PortSerie extends Thread implements SerialPortEventListener {
 
 	private SerialPort serialPort;
 	public BufferedReader fluxLecture;
-	public OutputStream fluxEcriture; // flux d'écriture du port
+	public OutputStream fluxEcriture; // flux d'ï¿½criture du port
 	private boolean running;
 	private CommPortIdentifier portId;
 
@@ -31,7 +31,7 @@ public class PortSerie extends Thread implements SerialPortEventListener {
 	}
 
 	/*
-	 * Renvoie le seul objet instancié de cette classe
+	 * Renvoie le seul objet instanciï¿½ de cette classe
 	 */
 	public static PortSerie getInstance(IvyCommunicationInterface bus) {
 
@@ -62,7 +62,7 @@ public class PortSerie extends Thread implements SerialPortEventListener {
 		// initialisation du driver
 		Win32Driver w32Driver = new Win32Driver();
 		w32Driver.initialize();
-		// récupération de l'identifiant du port
+		// rï¿½cupï¿½ration de l'identifiant du port
 		try {
 			portId = CommPortIdentifier.getPortIdentifier(port);
 		} catch (NoSuchPortException e) {
@@ -73,7 +73,7 @@ public class PortSerie extends Thread implements SerialPortEventListener {
 			serialPort = (SerialPort) portId.open("IvyCommPort", 2000);
 		} catch (PortInUseException e) {
 		}
-		// récupération du flux
+		// rï¿½cupï¿½ration du flux
 		try {
 			fluxLecture = new BufferedReader(new InputStreamReader(
 					serialPort.getInputStream()));
@@ -93,7 +93,7 @@ public class PortSerie extends Thread implements SerialPortEventListener {
 		}
 		// Log.TRACE(String.format("Port serie %s ouvert, attente de lecture",
 		// idPortSerie));
-		// récupération du flux de lecture et écriture du port
+		// rï¿½cupï¿½ration du flux de lecture et ï¿½criture du port
 		try {
 			fluxEcriture = serialPort.getOutputStream();
 			fluxLecture = new BufferedReader(new InputStreamReader(
@@ -106,8 +106,8 @@ public class PortSerie extends Thread implements SerialPortEventListener {
 	}
 
 	/*
-	 * Appelé quand on appelle la méthode start() Permet l'écoute du port série
-	 * dans un processus indépendant
+	 * Appelï¿½ quand on appelle la mï¿½thode start() Permet l'ï¿½coute du port sï¿½rie
+	 * dans un processus indï¿½pendant
 	 * 
 	 * @see java.lang.Thread#run()
 	 */
@@ -128,10 +128,10 @@ public class PortSerie extends Thread implements SerialPortEventListener {
 		serialPort.close();
 	}
 
-	// Méthode de gestion des événements.
+	// Mï¿½thode de gestion des ï¿½vï¿½nements.
 	public void serialEvent(SerialPortEvent event) {
-		// gestion des événements sur le port :
-		// on ne fait rien sauf quand les données sont disponibles
+		// gestion des ï¿½vï¿½nements sur le port :
+		// on ne fait rien sauf quand les donnï¿½es sont disponibles
 		switch (event.getEventType()) {
 		case SerialPortEvent.BI:
 		case SerialPortEvent.OE:
@@ -156,6 +156,7 @@ public class PortSerie extends Thread implements SerialPortEventListener {
 				message.setCategorieMessage(Constantes.CAPTEUR_MOUVEMENT);
 				message.setDateMessage(new Date());
 				message.setNumeroCapteur(num);
+				message.setMessage("1");
 
 				bus.postMessage(message);
 			} catch (IOException e) {
