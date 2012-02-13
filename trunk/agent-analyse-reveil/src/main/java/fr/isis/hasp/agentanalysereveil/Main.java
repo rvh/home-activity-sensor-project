@@ -22,7 +22,8 @@ public class Main extends Thread {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new Main();
+		Main main = new Main();
+		main.start();
 	}
 
 	@Override
