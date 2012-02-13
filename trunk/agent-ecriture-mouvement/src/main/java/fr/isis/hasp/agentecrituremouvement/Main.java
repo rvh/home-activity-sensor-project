@@ -23,6 +23,14 @@ public class Main extends Thread {
 
 		port.init("COM1");
 		port.run();
+		
+		while(!interrupted()){
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				return;
+			}
+		}
 	}
 
 }
