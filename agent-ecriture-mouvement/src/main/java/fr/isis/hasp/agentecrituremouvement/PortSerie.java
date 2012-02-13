@@ -49,6 +49,7 @@ public class PortSerie extends Thread implements SerialPortEventListener {
 			running = false;
 			portcomm = null;
 		}
+		return;
 	}
 
 	public PortSerie getPortSerie() {
