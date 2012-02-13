@@ -16,15 +16,21 @@ import fr.isis.hasp.ivycommunication.IvyCommunicationInterface;
 import fr.isis.hasp.objetsmetier.Constantes;
 import fr.isis.hasp.objetsmetier.Message;
 
-public class Main {
+public class Main extends Thread {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		new Main();
+	}
+
+	@Override
+	public void run() {
+		System.out.println("-> Start");
+		while(!interrupted()){
 		final IvyCommunicationInterface ivy = IvyCommunication
-				.getIvyCommunicationProxy("AgentAnalyseEndormissement");
+				.getIvyCommunicationProxy("AgentAnalyseReveil");
 
 		Configuration config = new Configuration();
 		config.addEventTypeAutoName("fr.isis.hasp.objetsmetier");
@@ -32,12 +38,14 @@ public class Main {
 				.getDefaultProvider(config);
 
 		/*
-		 * Détecte un réveil si
-		 * après un endormissement on détecte un évènement de levée du coussin.
+		 * DÃ©tecte un rÃ©veil si aprÃ¨s un endormissement on dÃ©tecte un Ã©vÃ¨nement
+		 * de levÃ©e du coussin.
 		 */
 		String expression = "select a.numeroCapteur as id from pattern "
-				+ "[every a=Message(a.categorieMessage='"+ Constantes.ENDORMISSEMENT + "') -> e=Message(e.categorieMessage='" + Constantes.CAPTEUR_COUSSIN 
-				+ "') " + "]";
+				+ "[every a=Message(a.categorieMessage='"
+				+ Constantes.ENDORMISSEMENT + "') "
+				+ "-> e=Message(e.categorieMessage='"
+				+ Constantes.CAPTEUR_COUSSIN + "')]";
 
 		EPStatement statement1 = epService.getEPAdministrator().createEPL(
 				expression);
@@ -89,6 +97,7 @@ public class Main {
 		// epService.getEPRuntime().sendEvent(messageEndormissement);
 		//
 		// epService.getEPRuntime().sendEvent(messageCoussin);
+		}
 	}
 
 }
