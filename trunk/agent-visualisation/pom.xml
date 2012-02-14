@@ -32,13 +32,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>fr.isis.hasp</groupId>
-			<artifactId>objets-metier</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
@@ -57,13 +50,60 @@
 			<classifier>sources</classifier>
 			<scope>test</scope>
 		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>fr.isis.hasp</groupId> -->
+<!-- 			<artifactId>objets-metier</artifactId> -->
+<!-- 			<version>0.0.1-SNAPSHOT</version> -->
+<!-- 			<type>jar</type> -->
+<!-- 			<scope>compile</scope> -->
+<!-- 		</dependency> -->
+		<!-- Dépendance MySQL [Début] -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.17</version>
+		</dependency>
+		<!-- Dépendance MySQL [Fin] -->
+		<dependency>
+			<groupId>fr.isis.hasp</groupId>
+			<artifactId>objets-metier</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>fr.isis.hasp</groupId>
+			<artifactId>ivy-communication</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<!-- Generate compiled stuff in the folder used for developing mode -->
 		<outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
-
 		<plugins>
+			<!-- Copy dependencies to war/WEB-INF/lib for GAE proj compliance. -->
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 				<artifactId>maven-dependency-plugin</artifactId> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<id>default-cli</id> -->
+<!-- 						<goals> -->
+<!-- 							<goal>copy-dependencies</goal> -->
+<!-- 						</goals> -->
+<!-- 						<configuration> -->
+<!-- 							<outputDirectory>${basedir}/war/WEB-INF/lib/</outputDirectory> -->
+<!-- 							<overWriteReleases>false</overWriteReleases> -->
+<!-- 							<overWriteSnapshots>false</overWriteSnapshots> -->
+<!-- 							<overWriteIfNewer>true</overWriteIfNewer> -->
+<!-- 							<excludeArtifactIds>gwt-user,gwt-dev</excludeArtifactIds> -->
+<!-- 						</configuration> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
 
 			<!-- GWT Maven Plugin -->
 			<plugin>
@@ -74,9 +114,9 @@
 					<execution>
 						<goals>
 							<goal>compile</goal>
-							<goal>test</goal>
+							<!-- <goal>test</goal> -->
 							<goal>i18n</goal>
-							<goal>generateAsync</goal>
+							<!-- <goal>generateAsync</goal> -->
 						</goals>
 					</execution>
 				</executions>
