@@ -2,20 +2,19 @@ package fr.isis.hasp.agentanalysereveil;
 
 public class InterfaceAgentAnalyseReveil {
 
-	private Main threadAgentAnalyseReveil = null;
+	private Main threadAgentAnalyseReveil = new Main();
 	
 	public InterfaceAgentAnalyseReveil(){
+		threadAgentAnalyseReveil.start();
 	}
 	
 	public void start(){
-		threadAgentAnalyseReveil = new Main();
-		threadAgentAnalyseReveil.start();
+		threadAgentAnalyseReveil.setRunning(true);
 		System.out.println("Start");
 	}
 	
 	public void stop(){
-		threadAgentAnalyseReveil.interrupt();
-		threadAgentAnalyseReveil = null;
+		threadAgentAnalyseReveil.setRunning(true);
 		System.out.println("Stop");
 	}
 }

@@ -17,19 +17,21 @@ import fr.isis.hasp.objetsmetier.Constantes;
 import fr.isis.hasp.objetsmetier.Message;
 
 public class Main extends Thread {
-
+	private static boolean running = false;
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		Main main = new Main();
 		main.start();
+		running = true;
 	}
 
 	@Override
 	public void run() {
 		System.out.println("-> Start");
-		while(!interrupted()){
+			
 		final IvyCommunicationInterface ivy = IvyCommunication
 				.getIvyCommunicationProxy("AgentAnalyseReveil");
 
@@ -70,14 +72,16 @@ public class Main extends Thread {
 				+ Constantes.SEPARATEUR + "(.*)", new IvyMessageListener() {
 
 			public void receive(IvyClient arg0, String[] arg1) {
-				try {
-					Message message = IvyCommunication
-							.unSerialyzeMessage(arg1[0]);
-
-					epService.getEPRuntime().sendEvent(message);
-
-				} catch (Exception e) {
-					e.printStackTrace();
+				if(running){
+					try {
+						Message message = IvyCommunication
+								.unSerialyzeMessage(arg1[0]);
+	
+						epService.getEPRuntime().sendEvent(message);
+	
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 
@@ -98,7 +102,11 @@ public class Main extends Thread {
 		// epService.getEPRuntime().sendEvent(messageEndormissement);
 		//
 		// epService.getEPRuntime().sendEvent(messageCoussin);
-		}
+		
+	}
+	
+	public void setRunning(boolean run) {
+		running = run;
 	}
 
 }
