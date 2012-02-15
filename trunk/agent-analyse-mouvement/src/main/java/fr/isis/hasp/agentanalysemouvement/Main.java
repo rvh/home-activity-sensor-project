@@ -17,13 +17,15 @@ import fr.isis.hasp.objetsmetier.Constantes;
 import fr.isis.hasp.objetsmetier.Message;
 
 public class Main extends Thread {
-
+	private static boolean running = false;
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		Main main = new Main();
-		main.start();
+		main.run();
+		running = true;
 	}
 
 	private String nbPersonnes = "1";
@@ -120,41 +122,43 @@ public class Main extends Thread {
 				+ Constantes.SEPARATEUR + "(.*)", new IvyMessageListener() {
 
 			public void receive(IvyClient arg0, String[] arg1) {
-				try {
-					Message message = null;
-
+				if(running){
 					try {
-						message = IvyCommunication.unSerialyzeMessage(arg1[0]);
+						Message message = null;
+	
+						try {
+							message = IvyCommunication.unSerialyzeMessage(arg1[0]);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+	
+						if (message != null) {
+							if (message.getCategorieMessage().equals(
+									Constantes.CAPTEUR_MOUVEMENT)) {
+								if(nbPersonnes.equals("1")){
+									epServiceMouvement.getEPRuntime()
+									.sendEvent(message);
+								}
+								
+							} else if (message.getCategorieMessage().equals(
+									Constantes.CAPTEUR_CO2)) {
+								nbPersonnes = message.getMessage();
+								System.out.println("Il y a "+nbPersonnes+ " personnes");
+							}
+						}
+						// String[] result = arg1[0].split(Constantes.SEPARATEUR);
+						//
+						// String[] numero = result[0].split("DETX");
+						//
+						// int num = Integer.parseInt(numero[0]);
+						//
+						// Message message = new Message();
+						// message.setCategorieMessage(Constantes.CAPTEUR_MOUVEMENT);
+						// message.setDateMessage(new Date());
+						// message.setNumeroCapteur(num);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-
-					if (message != null) {
-						if (message.getCategorieMessage().equals(
-								Constantes.CAPTEUR_MOUVEMENT)) {
-							if(nbPersonnes.equals("1")){
-								epServiceMouvement.getEPRuntime()
-								.sendEvent(message);
-							}
-							
-						} else if (message.getCategorieMessage().equals(
-								Constantes.CAPTEUR_CO2)) {
-							nbPersonnes = message.getMessage();
-							System.out.println("Il y a "+nbPersonnes+ " personnes");
-						}
-					}
-					// String[] result = arg1[0].split(Constantes.SEPARATEUR);
-					//
-					// String[] numero = result[0].split("DETX");
-					//
-					// int num = Integer.parseInt(numero[0]);
-					//
-					// Message message = new Message();
-					// message.setCategorieMessage(Constantes.CAPTEUR_MOUVEMENT);
-					// message.setDateMessage(new Date());
-					// message.setNumeroCapteur(num);
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
 			}
 
@@ -209,5 +213,9 @@ public class Main extends Thread {
 //		epServiceNBPersonnes.getEPRuntime().sendEvent(messageNB);
 //		epServiceNBPersonnes.getEPRuntime().sendEvent(messageNB2);
 //		epServiceNBPersonnes.getEPRuntime().sendEvent(messageNB2);
+	}
+
+	public void setRunning(boolean run) {
+		running = run;
 	}
 }

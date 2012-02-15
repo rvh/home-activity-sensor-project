@@ -2,20 +2,19 @@ package fr.isis.hasp.agentanalysemouvement;
 
 public class InterfaceAgentAnalyseMouvement {
 
-	private Main threadAgentAnalyseMouvement = null;
+	private Main threadAgentAnalyseMouvement = new Main();
 	
 	public InterfaceAgentAnalyseMouvement(){
+		threadAgentAnalyseMouvement.start();
 	}
 	
 	public void start(){
-		threadAgentAnalyseMouvement = new Main();
-		threadAgentAnalyseMouvement.start();
+		threadAgentAnalyseMouvement.setRunning(true);
 		System.out.println("Start");
 	}
 	
 	public void stop(){
-		threadAgentAnalyseMouvement.interrupt();
-		threadAgentAnalyseMouvement = null;
+		threadAgentAnalyseMouvement.setRunning(false);
 		System.out.println("Stop");
 	}
 }
