@@ -42,35 +42,48 @@ public class Main extends Thread {
 		
 		/*
 		 * Détecte un endormissement si
-		 * il y a un changement de pièce vers la pièce 3, puis sur un intervale de INTERVALE secondes,
-		 * on ne détecte aucun des évènements suivant :
+		 * il y a un changement de pièce vers la pièce 3 suivi d'un évènement FiltreEndormissement.
+		 */
+		String expressionEndormissement = "select a.numeroCapteur as id " +
+				"from pattern " +
+				"[every a=Message(a.numeroCapteur="+NUM_PIECE_CHAMBRE+", a.categorieMessage='"+Constantes.CHANGEMENT_PIECE+"') " +
+						"-> b=FiltreEndormissement "+
+				"]";
+		
+		/**
+		 * Dans une fenêtre de INTERVALE secondes, on ne détecte aucun des évènements suivants :
 		 * - changement de pièce
 		 * - son élevé
 		 * - lumière au dessus d'un seuil : SEUIL_LUMIERE
 		 * - levée du coussin
 		 * - niveau de CO2 incompatible avec 1 personne dans l'appartement
+		 * => on stocke cet évènement dans un flux temporaire FiltreEndormissement
 		 */
-		String expression = "select a.numeroCapteur as id " +
-				"from pattern " +
-				"[every a=Message(a.numeroCapteur="+NUM_PIECE_CHAMBRE+", a.categorieMessage='"+Constantes.CHANGEMENT_PIECE+"') " +
-						"-> (timer:interval("+INTERVALE+" sec) " +
-						"and not b=Message(b.categorieMessage='"+Constantes.CHANGEMENT_PIECE+"') " +
-						"and not c=Message(c.categorieMessage='"+Constantes.CAPTEUR_SON+"', message='1') " +
-						"and not d=Message(d.categorieMessage='"+Constantes.CAPTEUR_LUMIERE+"', " +
-								"cast(message, int)>"+SEUIL_LUMIERE+", " +
-								"d.numeroCapteur="+NUM_SUNSPOT_CHAMBRE+") " +
-						"and not e=Message(e.categorieMessage='"+Constantes.CAPTEUR_COUSSIN+"') " +
-						"and not f=Message(f.categorieMessage='"+Constantes.CAPTEUR_CO2+"', " +
-								"message='0') " +
-						"and not g=Message(g.categorieMessage='"+Constantes.CAPTEUR_CO2+"', " +
-								"message='2') " +
-				")]";
+		String expressionFiltreEndormissement = "insert into FiltreEndormissement " +
+			"select a.numeroCapteur as id " +
+			"from pattern " +
+			"[every a=Message" +
+					"-> (timer:interval("+INTERVALE+" sec) " +
+					"and not b=Message(b.categorieMessage='"+Constantes.CHANGEMENT_PIECE+"') " +
+					"and not c=Message(c.categorieMessage='"+Constantes.CAPTEUR_SON+"', message='1') " +
+					"and not d=Message(d.categorieMessage='"+Constantes.CAPTEUR_LUMIERE+"', " +
+							"cast(message, int)>"+SEUIL_LUMIERE+", " +
+							"d.numeroCapteur="+NUM_SUNSPOT_CHAMBRE+") " +
+					"and not e=Message(e.categorieMessage='"+Constantes.CAPTEUR_COUSSIN+"') " +
+					"and not f=Message(f.categorieMessage='"+Constantes.CAPTEUR_CO2+"', " +
+							"message='0') " +
+					"and not g=Message(g.categorieMessage='"+Constantes.CAPTEUR_CO2+"', " +
+							"message='2') " +
+			")]";
 		
-		EPStatement statement1 = epService.getEPAdministrator().createEPL(
-				expression);
+		EPStatement statementFiltreEndormissement = epService.getEPAdministrator().createEPL(
+				expressionFiltreEndormissement);
 		
+		EPStatement statementEndormissement = epService.getEPAdministrator().createEPL(
+				expressionEndormissement);
+
 		
-		statement1.addListener(new StatementAwareUpdateListener() {
+		statementEndormissement.addListener(new StatementAwareUpdateListener() {
 		
 			public void update(EventBean[] newEvents, EventBean[] oldEvents,
 					EPStatement stmt, EPServiceProvider service) {
@@ -84,6 +97,15 @@ public class Main extends Thread {
 				ivy.postMessage(message);
 				
 				System.out.println("Endromissement : "+message);
+			}
+		});
+		
+		statementFiltreEndormissement.addListener(new StatementAwareUpdateListener() {
+			
+			public void update(EventBean[] newEvents, EventBean[] oldEvents,
+					EPStatement stmt, EPServiceProvider service) {
+				
+				System.out.println("Pattern matched");
 			}
 		});
 		
