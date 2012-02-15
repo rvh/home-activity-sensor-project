@@ -17,7 +17,7 @@ import fr.isis.hasp.objetsmetier.Constantes;
 import fr.isis.hasp.objetsmetier.Message;
 
 public class Main extends Thread {
-	private static final int INTERVALE = 5;
+	private static final int INTERVALE = 10;
 	private static final int SEUIL_LUMIERE = 50;
 	private static final int NUM_SUNSPOT_CHAMBRE = 1;
 	private static final int NUM_PIECE_CHAMBRE = 3;
@@ -83,7 +83,7 @@ public class Main extends Thread {
 		
 				ivy.postMessage(message);
 				
-				System.out.println(message);
+				System.out.println("Endromissement : "+message);
 			}
 		});
 		
@@ -92,6 +92,7 @@ public class Main extends Thread {
 		
 			public void receive(IvyClient arg0, String[] arg1) {
 				try {
+					System.out.println("Log : "+arg1[0]);
 					Message message = IvyCommunication.unSerialyzeMessage(arg1[0]);
 					
 					epService.getEPRuntime().sendEvent(message);
