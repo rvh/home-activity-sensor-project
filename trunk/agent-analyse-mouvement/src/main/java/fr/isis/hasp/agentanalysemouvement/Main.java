@@ -96,6 +96,7 @@ public class Main extends Thread {
 				message.setCategorieMessage(Constantes.CHANGEMENT_PIECE);
 				message.setDateMessage(new Date());
 				message.setNumeroCapteur((Integer) event.get("id"));
+				message.setMessage("1");
 
 				if(nbPersonnes.equals("1")){
 					ivy.postMessage(message);
