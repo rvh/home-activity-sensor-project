@@ -33,14 +33,17 @@ public class Main extends Thread {
 		final IvyCommunicationInterface ivy = IvyCommunication
 				.getIvyCommunicationProxy("AgentAnalyseMouvement");
 
-		Configuration config = new Configuration();
-		config.addEventTypeAutoName("fr.isis.hasp.objetsmetier");
+		Configuration configMouvement = new Configuration();
+		configMouvement.addEventTypeAutoName("fr.isis.hasp.objetsmetier");
+		
+//		Configuration configPersonnes = new Configuration();
+//		configPersonnes.addEventTypeAutoName("fr.isis.hasp.objetsmetier");
 
 		final EPServiceProvider epServiceMouvement = EPServiceProviderManager
-				.getDefaultProvider(config);
-
-		final EPServiceProvider epServiceNBPersonnes = EPServiceProviderManager
-				.getDefaultProvider(config);
+				.getDefaultProvider(configMouvement);
+//
+//		final EPServiceProvider epServiceNBPersonnes = EPServiceProviderManager
+//				.getDefaultProvider(configPersonnes);
 
 		/**
 		 * On regarde une fenêtre de 4 évènements de type mouvement. Si parmi
@@ -67,15 +70,15 @@ public class Main extends Thread {
 		EPStatement statement2 = epServiceMouvement.getEPAdministrator()
 				.createEPL(expression2);
 
-		/**
-		 * 
-		 */
-		String expression3 = "select count(message), message "
-				+ "from Message.win:length(3) " + "group by message "
-				+ "having count(message) >= 2";
-
-		EPStatement statement3 = epServiceMouvement.getEPAdministrator()
-				.createEPL(expression3);
+//		/**
+//		 * 
+//		 */
+//		String expression3 = "select count(message), message "
+//				+ "from Message.win:length(3) " + "group by message "
+//				+ "having count(message) >= 2";
+//
+//		EPStatement statement3 = epServiceMouvement.getEPAdministrator()
+//				.createEPL(expression3);
 
 		statement1.addListener(new StatementAwareUpdateListener() {
 
@@ -97,23 +100,21 @@ public class Main extends Thread {
 				message.setDateMessage(new Date());
 				message.setNumeroCapteur((Integer) event.get("id"));
 				message.setMessage("1");
-
-				if(nbPersonnes.equals("1")){
-					ivy.postMessage(message);
-				}
+				
+				ivy.postMessage(message);
 			}
 		});
 
-		statement3.addListener(new StatementAwareUpdateListener() {
-
-			public void update(EventBean[] newEvents, EventBean[] oldEvents,
-					EPStatement stmt, EPServiceProvider service) {
-				EventBean event = newEvents[0];
-				nbPersonnes = (String) event.get("message");
-//				System.out.println("nbPersonnes:" + nbPersonnes + " - "
-//						+ event.get("count(message)"));
-			}
-		});
+//		statement3.addListener(new StatementAwareUpdateListener() {
+//
+//			public void update(EventBean[] newEvents, EventBean[] oldEvents,
+//					EPStatement stmt, EPServiceProvider service) {
+//				EventBean event = newEvents[0];
+//				nbPersonnes = (String) event.get("message");
+////				System.out.println("nbPersonnes:" + nbPersonnes + " - "
+////						+ event.get("count(message)"));
+//			}
+//		});
 
 		ivy.subscribeMessage("^" + Constantes.NOM_PROJET
 				+ Constantes.SEPARATEUR + "(.*)", new IvyMessageListener() {
@@ -131,14 +132,16 @@ public class Main extends Thread {
 					if (message != null) {
 						if (message.getCategorieMessage().equals(
 								Constantes.CAPTEUR_MOUVEMENT)) {
-							epServiceMouvement.getEPRuntime()
-									.sendEvent(message);
+							if(nbPersonnes.equals("1")){
+								epServiceMouvement.getEPRuntime()
+								.sendEvent(message);
+							}
+							
 						} else if (message.getCategorieMessage().equals(
 								Constantes.CAPTEUR_CO2)) {
-							epServiceNBPersonnes.getEPRuntime().sendEvent(
-									message);
+							nbPersonnes = message.getMessage();
+							System.out.println("Il y a "+nbPersonnes+ " personnes");
 						}
-
 					}
 					// String[] result = arg1[0].split(Constantes.SEPARATEUR);
 					//
