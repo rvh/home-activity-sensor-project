@@ -21,6 +21,8 @@ import fr.isis.hasp.objetsmetier.Message;
 
 public class DbMeter extends Thread{
 
+	private static final double SEUIL = 1;
+
 	final IvyCommunicationInterface ivy = IvyCommunication.getIvyCommunicationProxy("AgentCaptureSon");
 	
 	byte[] b = new byte[70000];
@@ -28,17 +30,17 @@ public class DbMeter extends Thread{
 
 	private AudioFormat audioFormat;
 	private TargetDataLine targetDataLine;
-	private int calibration = 0;// pour la calibration du micro, mais pas super important pour nous etant donnée que l'on capte juste les variations
+	private int calibration = 0;// pour la calibration du micro, mais pas super important pour nous etant donnï¿½e que l'on capte juste les variations
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new DbMeter();
-
+		new DbMeter().run();
 	}
 
 	public void run() {
+		System.out.println("Hello DbMeter");
 		while (!interrupted()) {
 			try {
 				for (int i = 0; i < b.length; i++)
@@ -48,7 +50,7 @@ public class DbMeter extends Thread{
 				
 				double level = calculateRMSLevel(b);
 				
-//				System.out.println("Level : "+ (calculateRMSLevel(b) + calibration));//Affiche le volume sonore RMS (correspond à peu pret au volume db
+//				System.out.println("Level : "+ (calculateRMSLevel(b) + calibration));//Affiche le volume sonore RMS (correspond ï¿½ peu pret au volume db
 				
 				Message message = new Message();
 				message.setCategorieMessage(Constantes.CAPTEUR_SON);
@@ -57,7 +59,7 @@ public class DbMeter extends Thread{
 				
 				System.out.print("LEVEL : "+level);
 				
-				if(level>120){
+				if(level>SEUIL){
 					message.setMessage("1");
 					ivy.postMessage(message);
 				}else{
@@ -88,7 +90,7 @@ public class DbMeter extends Thread{
 			// will return after starting the thread.
 			new CaptureThread().start();
 		} catch (Exception e) {
-			System.out.println("Vérifier qu'un micro est branché à ce PC.\n");
+			System.out.println("VÃ©rifier qu'un micro est branchÃ© Ã§Ã  ce PC.\n");
 		
 			e.printStackTrace();
 			System.exit(0);
