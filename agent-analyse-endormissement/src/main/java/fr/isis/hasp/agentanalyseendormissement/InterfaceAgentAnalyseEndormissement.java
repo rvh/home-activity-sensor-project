@@ -2,20 +2,19 @@ package fr.isis.hasp.agentanalyseendormissement;
 
 public class InterfaceAgentAnalyseEndormissement {
 
-	private Main threadAgentAnalyseEndormissement = null;
+	private Main threadAgentAnalyseEndormissement = new Main();
 	
 	public InterfaceAgentAnalyseEndormissement(){
+		threadAgentAnalyseEndormissement.start();
 	}
 	
 	public void start(){
-		threadAgentAnalyseEndormissement = new Main();
-		threadAgentAnalyseEndormissement.start();
+		threadAgentAnalyseEndormissement.setRunning(true);
 		System.out.println("Start");
 	}
 	
 	public void stop(){
-		threadAgentAnalyseEndormissement.interrupt();
-		threadAgentAnalyseEndormissement = null;
+		threadAgentAnalyseEndormissement.setRunning(false);
 		System.out.println("Stop");
 	}
 }
